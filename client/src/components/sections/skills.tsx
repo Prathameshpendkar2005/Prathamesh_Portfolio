@@ -1,61 +1,72 @@
 import { TerminalWindow } from "@/components/ui/terminal-window";
-import { Cloud, UserCheck, Shield, Code, Wrench, Server } from "lucide-react";
+import { 
+  Cloud, UserCheck, Shield, Code, Wrench, Server, Database, 
+  Network, Layers, BarChart, Monitor, Search, Bug, 
+  Terminal, Container, GitBranch, Settings
+} from "lucide-react";
 
 const skillCategories = [
   {
     id: "cloud-security",
     title: "Cloud Security",
     icon: Cloud,
-    skills: [
-      { name: "AWS (EC2, S3, IAM)", level: 90 },
-      { name: "Azure & GCP", level: 75 },
-      { name: "Infrastructure as Code", level: 80 }
+    tools: [
+      { name: "AWS", icon: Cloud },
+      { name: "EC2", icon: Server },
+      { name: "S3", icon: Database },
+      { name: "VPC", icon: Network },
+      { name: "IAM", icon: UserCheck },
+      { name: "Azure Cloud", icon: Cloud },
+      { name: "Google Cloud Platform", icon: Cloud },
+      { name: "CloudFront", icon: Network },
+      { name: "WAF", icon: Shield }
     ]
   },
   {
-    id: "penetration-testing",
-    title: "Penetration Testing",
-    icon: UserCheck,
-    skills: [
-      { name: "Web App Security", level: 95 },
-      { name: "Network Security", level: 85 },
-      { name: "OWASP Top 10", level: 90 }
+    id: "vapt-tools",
+    title: "VAPT Tools",
+    icon: Search,
+    tools: [
+      { name: "Nmap", icon: Search },
+      { name: "Naabu", icon: Network },
+      { name: "Burp Suite", icon: Bug },
+      { name: "OWASP ZAP", icon: Shield },
+      { name: "SQLMap", icon: Database },
+      { name: "Nikto", icon: Search },
+      { name: "Kali Linux", icon: Terminal },
+      { name: "Metasploit", icon: Bug }
     ]
   },
   {
-    id: "soc-monitoring",
-    title: "SOC & Monitoring",
-    icon: Shield,
-    skills: [
-      { name: "SIEM (ELK, Wazuh)", level: 85 },
-      { name: "Incident Response", level: 80 },
-      { name: "Threat Hunting", level: 75 }
+    id: "soc-siem",
+    title: "SOC / SIEM",
+    icon: Monitor,
+    tools: [
+      { name: "Elasticsearch", icon: Database },
+      { name: "Logstash", icon: Settings },
+      { name: "Kibana", icon: BarChart },
+      { name: "Wazuh SIEM", icon: Shield },
+      { name: "Microsoft Sentinel", icon: Monitor },
+      { name: "Zabbix Monitoring", icon: Monitor },
+      { name: "Prometheus", icon: BarChart },
+      { name: "Splunk", icon: Database },
+      { name: "Fleet Server", icon: Server },
+      { name: "Grafana", icon: BarChart }
     ]
   },
   {
-    id: "programming",
-    title: "Programming",
-    icon: Code,
-    skills: [
-      { name: "Python", level: 85 },
-      { name: "Bash Scripting", level: 90 },
-      { name: "Java", level: 70 }
-    ]
-  },
-  {
-    id: "security-tools",
-    title: "Security Tools",
-    icon: Wrench,
-    tools: ["Burp Suite", "Metasploit", "Nmap", "OWASP ZAP", "SQLMap", "Nikto", "WPScan", "FFUF"]
-  },
-  {
-    id: "infrastructure",
-    title: "Infrastructure",
-    icon: Server,
-    skills: [
-      { name: "Docker & Kubernetes", level: 80 },
-      { name: "Linux Administration", level: 90 },
-      { name: "Windows Admin", level: 75 }
+    id: "devops-automation",
+    title: "DevOps & Automation",
+    icon: Settings,
+    tools: [
+      { name: "Docker", icon: Container },
+      { name: "Kubernetes", icon: Layers },
+      { name: "Python", icon: Code },
+      { name: "Bash", icon: Terminal },
+      { name: "Git", icon: GitBranch },
+      { name: "Terraform", icon: Settings },
+      { name: "Ansible", icon: Settings },
+      { name: "Infrastructure as Code", icon: Code }
     ]
   }
 ];
@@ -72,7 +83,7 @@ export function SkillsSection() {
           <p className="text-muted">Expertise across cybersecurity domains</p>
         </div>
 
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-8">
           {skillCategories.map((category) => {
             const IconComponent = category.icon;
             return (
@@ -84,37 +95,21 @@ export function SkillsSection() {
                       {category.title}
                     </h3>
                     
-                    {category.skills ? (
-                      <div className="space-y-3">
-                        {category.skills.map((skill) => (
-                          <div key={skill.name} className="skill-item" data-testid={`skill-${skill.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                            <div className="flex justify-between text-sm mb-1">
-                              <span className="font-mono">{skill.name}</span>
-                              <span className="text-neon">{skill.level}%</span>
-                            </div>
-                            <div className="skill-bar">
-                              <div 
-                                className="skill-progress" 
-                                style={{ width: `${skill.level}%` }}
-                                data-testid={`skill-progress-${skill.name.toLowerCase().replace(/\s+/g, '-')}`}
-                              ></div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="flex flex-wrap gap-2">
-                        {category.tools?.map((tool) => (
-                          <span 
-                            key={tool}
-                            className="bg-terminal px-2 py-1 rounded text-xs font-mono text-neon"
-                            data-testid={`tool-tag-${tool.toLowerCase().replace(/\s+/g, '-')}`}
+                    <div className="grid grid-cols-2 gap-3">
+                      {category.tools?.map((tool) => {
+                        const ToolIcon = tool.icon;
+                        return (
+                          <div 
+                            key={tool.name}
+                            className="flex items-center gap-2 bg-terminal px-3 py-2 rounded text-sm font-mono text-neon hover:bg-border transition-colors"
+                            data-testid={`tool-${tool.name.toLowerCase().replace(/\s+/g, '-')}`}
                           >
-                            {tool}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                            <ToolIcon size={16} />
+                            <span>{tool.name}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </TerminalWindow>
               </div>
