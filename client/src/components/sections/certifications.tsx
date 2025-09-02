@@ -1,40 +1,27 @@
+import { useQuery } from "@tanstack/react-query";
 import { TerminalWindow } from "@/components/ui/terminal-window";
 import { Award, Cloud, UserCheck, Search } from "lucide-react";
+import type { Certification } from "@shared/schema";
 
-const certifications = [
-  {
-    id: "aws-cert",
-    title: "AWS Cloud Certification",
-    provider: "SevenMentor",
-    year: "2025",
-    description: "Cloud Security & Infrastructure",
-    status: "In Progress",
-    statusColor: "bg-accent text-background",
-    icon: Cloud
-  },
-  {
-    id: "comptia-pentest",
-    title: "CompTIA PenTest+",
-    provider: "Udemy",
-    year: "In Progress",
-    description: "Penetration Testing & Vulnerability Assessment",
-    status: "In Progress",
-    statusColor: "bg-accent text-background",
-    icon: UserCheck
-  },
-  {
-    id: "dfe-cert",
-    title: "Digital Forensics Essentials (DFE)",
-    provider: "EC-Council",
-    year: "March 2023",
-    description: "Digital Forensics & Incident Response",
-    status: "Certified",
-    statusColor: "bg-neon text-background",
-    icon: Search
-  }
-];
+const iconMap = {
+  Cloud, UserCheck, Search, Award
+};
 
 export function CertificationsSection() {
+  const { data: certifications, isLoading } = useQuery<Certification[]>({
+    queryKey: ['/api/certifications'],
+  });
+
+  if (isLoading) {
+    return (
+      <section id="certifications" className="min-h-screen py-20 px-4" data-testid="certifications-section">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="text-neon font-mono">Loading certifications...</div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="certifications" className="min-h-screen py-20 px-4" data-testid="certifications-section">
       <div className="max-w-4xl mx-auto">
@@ -47,8 +34,8 @@ export function CertificationsSection() {
         </div>
 
         <div className="space-y-6">
-          {certifications.map((cert) => {
-            const IconComponent = cert.icon;
+          {certifications && Array.isArray(certifications) && certifications.map((cert) => {
+            const IconComponent = iconMap[cert.icon as keyof typeof iconMap] || Award;
             return (
               <div key={cert.id} data-testid={`certification-${cert.id}`}>
                 <TerminalWindow title={`${cert.id}.json`} hover>

@@ -1,54 +1,23 @@
+import { useQuery } from "@tanstack/react-query";
 import { TerminalWindow } from "@/components/ui/terminal-window";
-import { Code } from "lucide-react";
-
-const projects = [
-  {
-    id: "aws-security",
-    title: "Secure Web Hosting on AWS EC2",
-    description: "Deployed a web application on EC2 and S3 with custom IAM policies for least-privilege access and isolation.",
-    tech: ["AWS EC2", "S3", "IAM", "VPC", "CloudFront"],
-    details: [
-      "Security Groups Configuration",
-      "Route 53 DNS Setup",
-      "WordPress Hardening"
-    ]
-  },
-  {
-    id: "recon-automation",
-    title: "Recon Automation Bash Script",
-    description: "Automated reconnaissance and vulnerability scanning with endpoint enumeration and comprehensive reporting.",
-    tech: ["Bash", "Nmap", "OWASP ZAP", "FFUF", "WPScan"],
-    details: [
-      "Subdomain Enumeration",
-      "Port Scanning & Detection",
-      "Automated Report Generation"
-    ]
-  },
-  {
-    id: "tscm-design",
-    title: "TSCM Product Design",
-    description: "Built a hardware-assisted tool to detect hidden surveillance devices with access control integration.",
-    tech: ["Embedded Systems", "RF Detection", "Security Engineering"],
-    details: [
-      "RF Signal Analysis",
-      "Hardware Integration",
-      "35% Detection Accuracy Improvement"
-    ]
-  },
-  {
-    id: "vulnerability-lab",
-    title: "Web Vulnerability Testing Lab",
-    description: "Created a comprehensive lab to simulate and exploit OWASP Top 10 vulnerabilities for VAPT practice.",
-    tech: ["OWASP Juice Shop", "bWAPP", "Metasploit", "Docker"],
-    details: [
-      "OWASP Top 10 Simulations",
-      "Exploitation Frameworks",
-      "Containerized Environment"
-    ]
-  }
-];
+import { Code, Github } from "lucide-react";
+import type { Project } from "@shared/schema";
 
 export function ProjectsSection() {
+  const { data: projects, isLoading } = useQuery<Project[]>({
+    queryKey: ['/api/projects'],
+  });
+
+  if (isLoading) {
+    return (
+      <section id="projects" className="min-h-screen py-20 px-4" data-testid="projects-section">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="text-neon font-mono">Loading projects...</div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="projects" className="min-h-screen py-20 px-4" data-testid="projects-section">
       <div className="max-w-6xl mx-auto">
@@ -61,11 +30,26 @@ export function ProjectsSection() {
         </div>
         
         <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project) => (
+          {projects && Array.isArray(projects) && projects.map((project) => (
             <div key={project.id} className="group" data-testid={`project-card-${project.id}`}>
               <TerminalWindow title={`${project.id}.sh`} hover>
                 <div>
-                  <h3 className="text-xl font-mono font-bold text-neon mb-3">{project.title}</h3>
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="text-xl font-mono font-bold text-neon">{project.title}</h3>
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-neon text-background px-3 py-1 rounded text-xs font-mono font-bold hover:bg-accent transition-all duration-300 flex items-center gap-1"
+                        data-testid={`github-link-${project.id}`}
+                      >
+                        <Github size={14} />
+                        GitHub
+                      </a>
+                    )}
+                  </div>
+                  
                   <p className="text-muted mb-4">{project.description}</p>
                   
                   <div className="flex flex-wrap gap-2 mb-4">

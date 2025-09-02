@@ -1,66 +1,23 @@
+import { useQuery } from "@tanstack/react-query";
 import { TerminalWindow } from "@/components/ui/terminal-window";
 import { Briefcase } from "lucide-react";
-
-const experiences = [
-  {
-    id: "imperative",
-    title: "Cybersecurity Intern",
-    company: "Imperative (Cyber Secured India)",
-    duration: "Aug 2025 - Nov 2025",
-    achievements: [
-      "SOC/NOC Lab Deployment: Built modular ELK + Wazuh + Zabbix stack using Docker with static IPs",
-      "Health Check Automation: Scripted health checks for Elasticsearch, Kibana, Fleet Server, and Zabbix agents",
-      "Remote Infrastructure: Validated uptime across Docker containers, connected to Thane office via VPN"
-    ]
-  },
-  {
-    id: "bloggerscon",
-    title: "Security Analyst Intern",
-    company: "Bloggerscon Vision Pvt. Ltd",
-    duration: "Feb 2025 - Aug 2025",
-    achievements: [
-      "Found 5-8 bugs: XSS, IDOR, CSRF, Open Redirect",
-      "Recon Automation: 40% speed improvement",
-      "Subdomain Enumeration: 500+ endpoints",
-      "Delivered 20+ PoC reports with VRT mapping"
-    ]
-  },
-  {
-    id: "hacktify",
-    title: "Cybersecurity Intern",
-    company: "Hacktify Cyber Security",
-    duration: "Feb 2025 - Mar 2025",
-    achievements: [
-      "Bug Bounty VAPT: Found 5-7 web app vulnerabilities (XSS, SQLi, IDOR, CSRF, Broken Auth)",
-      "Hacktify CTF: Solved 5 exploitation challenges, simulating real-world bounty tasks"
-    ]
-  },
-  {
-    id: "cybersec-corp",
-    title: "Digital Forensics Intern",
-    company: "Cybersecurity Corporation",
-    duration: "Jun 2024 - Aug 2024",
-    achievements: [
-      "Forensics: 10+ disk imaging cases with Autopsy",
-      "Incident Response: 5+ investigations supported",
-      "TSCM: 35% detection accuracy improvement",
-      "Reporting: 25% faster incident resolution"
-    ]
-  },
-  {
-    id: "arapl",
-    title: "Vulnerability Management Analyst",
-    company: "ARAPL, Pune",
-    duration: "Jun 2023 - Aug 2023",
-    achievements: [
-      "Lab Setup: Simulated 5 vulnerabilities using DVWA, Juice Shop, WebGoat",
-      "Vulnerability Scanning: Detected 30+ issues with OWASP ZAP",
-      "Reporting: Improved dev patch adoption by 20%"
-    ]
-  }
-];
+import type { Experience } from "@shared/schema";
 
 export function ExperienceSection() {
+  const { data: experiences, isLoading } = useQuery<Experience[]>({
+    queryKey: ['/api/experience'],
+  });
+
+  if (isLoading) {
+    return (
+      <section id="experience" className="min-h-screen py-20 px-4" data-testid="experience-section">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="text-neon font-mono">Loading experience...</div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="experience" className="min-h-screen py-20 px-4" data-testid="experience-section">
       <div className="max-w-6xl mx-auto">
@@ -73,7 +30,7 @@ export function ExperienceSection() {
         </div>
 
         <div className="space-y-8">
-          {experiences.map((exp) => (
+          {experiences && Array.isArray(experiences) && experiences.map((exp) => (
             <div key={exp.id} data-testid={`experience-${exp.id}`}>
               <TerminalWindow title={`${exp.id}.log`} hover>
                 <div>

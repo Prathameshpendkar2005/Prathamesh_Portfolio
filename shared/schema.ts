@@ -16,3 +16,51 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+// Portfolio data schemas
+export const ProjectSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  tech: z.array(z.string()),
+  details: z.array(z.string()),
+  githubUrl: z.string().optional()
+});
+
+export const SkillToolSchema = z.object({
+  name: z.string(),
+  icon: z.string(),
+  wikipediaUrl: z.string()
+});
+
+export const SkillCategorySchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  icon: z.string(),
+  tools: z.array(SkillToolSchema)
+});
+
+export const CertificationSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  provider: z.string(),
+  year: z.string(),
+  description: z.string(),
+  status: z.string(),
+  statusColor: z.string(),
+  icon: z.string()
+});
+
+export const ExperienceSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  company: z.string(),
+  duration: z.string(),
+  achievements: z.array(z.string())
+});
+
+export type Project = z.infer<typeof ProjectSchema>;
+export type SkillTool = z.infer<typeof SkillToolSchema>;
+export type SkillCategory = z.infer<typeof SkillCategorySchema>;
+export type Certification = z.infer<typeof CertificationSchema>;
+export type Experience = z.infer<typeof ExperienceSchema>;
