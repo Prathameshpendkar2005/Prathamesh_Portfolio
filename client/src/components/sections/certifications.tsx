@@ -8,8 +8,8 @@ const certifications = [
     provider: "SevenMentor",
     year: "2025",
     description: "Cloud Security & Infrastructure",
-    status: "Active",
-    statusColor: "bg-neon text-background",
+    status: "In Progress",
+    statusColor: "bg-accent text-background",
     icon: Cloud
   },
   {
