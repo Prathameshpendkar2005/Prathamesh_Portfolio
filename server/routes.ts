@@ -286,6 +286,166 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(galleryItems);
   });
 
+  // Generate ATS-friendly resume PDF
+  app.get("/api/resume/download", (req, res) => {
+    try {
+      // Set headers for PDF download
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename="Prathamesh_Pendkar_ATS_Resume.pdf"');
+
+      // ATS-friendly resume HTML template
+      const resumeHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Prathamesh Pendkar - Resume</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      line-height: 1.4;
+      color: #000;
+      margin: 20px;
+      max-width: 8.5in;
+    }
+    h1 { font-size: 18px; margin: 0 0 5px 0; font-weight: bold; }
+    h2 { font-size: 14px; margin: 15px 0 8px 0; font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 2px; }
+    h3 { font-size: 12px; margin: 8px 0 3px 0; font-weight: bold; }
+    p { margin: 2px 0; }
+    ul { margin: 3px 0; padding-left: 15px; }
+    li { margin: 1px 0; }
+    .header { text-align: center; margin-bottom: 15px; }
+    .contact { font-size: 10px; margin: 3px 0; }
+    .section { margin-bottom: 12px; }
+    .job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px; }
+    .company { font-weight: bold; }
+    .date { font-style: italic; font-size: 10px; }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-category { flex: 1; min-width: 200px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>PRATHAMESH SANTOSH PENDKAR</h1>
+    <div class="contact">Email: prathameshpendkar@gmail.com | Phone: +91-8390088075 | Location: Pune, India</div>
+    <div class="contact">LinkedIn: linkedin.com/in/prathamesh-pendkar | GitHub: github.com/Prathameshpendkar2005</div>
+  </div>
+
+  <div class="section">
+    <h2>PROFESSIONAL SUMMARY</h2>
+    <p>Cybersecurity professional with expertise in penetration testing, vulnerability assessment, and cloud security. Proven track record in SOC monitoring, digital forensics, and security automation. AWS certified with hands-on experience in bug bounty programs and VAPT methodologies.</p>
+  </div>
+
+  <div class="section">
+    <h2>EDUCATION</h2>
+    <div class="job-header">
+      <div><strong>Bachelor of Technology in Computer Science & Engineering</strong></div>
+      <div class="date">Expected 2026</div>
+    </div>
+    <p>Symbiosis Skills & Professional University, Pune | CGPA: 8.9/10</p>
+  </div>
+
+  <div class="section">
+    <h2>PROFESSIONAL EXPERIENCE</h2>
+    
+    <h3>Cybersecurity Intern | Imperative (Cyber Secured India)</h3>
+    <div class="date">August 2025 - November 2025</div>
+    <ul>
+      <li>SOC/NOC Lab Deployment: Built modular ELK + Wazuh + Zabbix stack using Docker with static IPs</li>
+      <li>Health Check Automation: Scripted health checks for Elasticsearch, Kibana, Fleet Server, and Zabbix agents</li>
+      <li>Remote Infrastructure: Validated uptime across Docker containers, connected to Thane office via VPN</li>
+    </ul>
+
+    <h3>Security Analyst Intern | Bloggerscon Vision Pvt. Ltd</h3>
+    <div class="date">February 2025 - August 2025</div>
+    <ul>
+      <li>Found 5-8 bugs: XSS, IDOR, CSRF, Open Redirect</li>
+      <li>Recon Automation: 40% speed improvement</li>
+      <li>Subdomain Enumeration: 500+ endpoints</li>
+      <li>Delivered 20+ PoC reports with VRT mapping</li>
+    </ul>
+
+    <h3>Cybersecurity Intern | Hacktify Cyber Security</h3>
+    <div class="date">February 2025 - March 2025</div>
+    <ul>
+      <li>Bug Bounty VAPT: Found 5-7 web app vulnerabilities (XSS, SQLi, IDOR, CSRF, Broken Auth)</li>
+      <li>Hacktify CTF: Solved 5 exploitation challenges, simulating real-world bounty tasks</li>
+    </ul>
+
+    <h3>Digital Forensics Intern | Cybersecurity Corporation</h3>
+    <div class="date">June 2024 - August 2024</div>
+    <ul>
+      <li>Forensics: 10+ disk imaging cases with Autopsy</li>
+      <li>Incident Response: 5+ investigations supported</li>
+      <li>TSCM: 35% detection accuracy improvement</li>
+      <li>Reporting: 25% faster incident resolution</li>
+    </ul>
+
+    <h3>Vulnerability Management Analyst | ARAPL, Pune</h3>
+    <div class="date">June 2023 - August 2023</div>
+    <ul>
+      <li>Lab Setup: Simulated 5 vulnerabilities using DVWA, Juice Shop, WebGoat</li>
+      <li>Vulnerability Scanning: Detected 30+ issues with OWASP ZAP</li>
+      <li>Reporting: Improved dev patch adoption by 20%</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>TECHNICAL SKILLS</h2>
+    <div class="skills-grid">
+      <div class="skill-category">
+        <strong>Cloud Security:</strong> AWS, EC2, S3, VPC, IAM, Azure, GCP, CloudFront, WAF
+      </div>
+      <div class="skill-category">
+        <strong>VAPT Tools:</strong> Nmap, Naabu, Burp Suite, OWASP ZAP, SQLMap, Nikto, Kali Linux, Metasploit
+      </div>
+      <div class="skill-category">
+        <strong>SOC/SIEM:</strong> Elasticsearch, Logstash, Kibana, Wazuh, Microsoft Sentinel, Zabbix, Prometheus, Splunk, Grafana
+      </div>
+      <div class="skill-category">
+        <strong>DevOps:</strong> Docker, Kubernetes, Python, Bash, Git, Terraform, Ansible, Infrastructure as Code
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>CERTIFICATIONS</h2>
+    <ul>
+      <li><strong>Digital Forensics Essentials (DFE)</strong> - EC-Council (March 2023)</li>
+      <li><strong>AWS Cloud Certification</strong> - SevenMentor (In Progress)</li>
+      <li><strong>CompTIA PenTest+</strong> - Udemy (In Progress)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>KEY PROJECTS</h2>
+    
+    <h3>Secure Web Hosting on AWS EC2</h3>
+    <p>Deployed web application on EC2 and S3 with custom IAM policies for least-privilege access and isolation. Technologies: AWS EC2, S3, IAM, VPC, CloudFront</p>
+    
+    <h3>Recon Automation Bash Script</h3>
+    <p>Automated reconnaissance and vulnerability scanning with endpoint enumeration and comprehensive reporting. Technologies: Bash, Nmap, OWASP ZAP, FFUF, WPScan</p>
+    
+    <h3>TSCM Product Design</h3>
+    <p>Built hardware-assisted tool to detect hidden surveillance devices with access control integration. Achieved 35% detection accuracy improvement.</p>
+    
+    <h3>Web Vulnerability Testing Lab</h3>
+    <p>Created comprehensive lab to simulate and exploit OWASP Top 10 vulnerabilities for VAPT practice. Technologies: OWASP Juice Shop, bWAPP, Metasploit, Docker</p>
+  </div>
+</body>
+</html>`;
+
+      // Return HTML for now - we'll convert to PDF on the frontend
+      res.setHeader('Content-Type', 'text/html');
+      res.send(resumeHTML);
+
+    } catch (error) {
+      console.error('Error generating resume:', error);
+      res.status(500).json({ error: 'Failed to generate resume' });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

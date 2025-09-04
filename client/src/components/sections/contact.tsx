@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TerminalWindow } from "@/components/ui/terminal-window";
 import { Terminal, Mail, Phone, Github, Linkedin, MapPin, Download } from "lucide-react";
+import { generateATSResume } from "@/lib/resume-generator";
 
 export function ContactSection() {
   const [notification, setNotification] = useState<string | null>(null);
@@ -124,15 +125,14 @@ export function ContactSection() {
                   >
                     Send Email
                   </a>
-                  <a 
-                    href="@assets/General_Resume_1756818796914.pdf" 
-                    download="Prathamesh_Pendkar_Resume.pdf"
+                  <button 
+                    onClick={generateATSResume}
                     className="bg-accent text-background px-6 py-3 rounded-lg font-mono font-bold hover:bg-neon transition-all duration-300 hover:scale-105 flex items-center gap-2"
                     data-testid="button-download-resume-contact"
                   >
                     <Download size={20} />
                     Download Resume
-                  </a>
+                  </button>
                   <a 
                     href="https://linkedin.com/in/prathamesh-pendkar" 
                     target="_blank" 
