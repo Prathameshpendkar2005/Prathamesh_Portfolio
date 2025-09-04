@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import type { Project, SkillCategory, Certification, Experience } from "../shared/schema";
+import type { Project, SkillCategory, Certification, Experience, GalleryItem } from "../shared/schema";
 
 // Portfolio data
 const projects: Project[] = [
@@ -15,7 +15,7 @@ const projects: Project[] = [
       "Route 53 DNS Setup", 
       "WordPress Hardening"
     ],
-    githubUrl: "https://github.com/Prathameshpendkar2005/aws-secure-hosting"
+    githubUrl: "https://github.com/Prathameshpendkar2005/Projects.git"
   },
   {
     id: "recon-automation",
@@ -27,7 +27,7 @@ const projects: Project[] = [
       "Port Scanning & Detection",
       "Automated Report Generation"
     ],
-    githubUrl: "https://github.com/Prathameshpendkar2005/recon-automation"
+    githubUrl: "https://github.com/Prathameshpendkar2005/Projects.git"
   },
   {
     id: "tscm-design",
@@ -39,7 +39,7 @@ const projects: Project[] = [
       "Hardware Integration",
       "35% Detection Accuracy Improvement"
     ],
-    githubUrl: "https://github.com/Prathameshpendkar2005/tscm-detection-tool"
+    githubUrl: "https://github.com/Prathameshpendkar2005/Projects.git"
   },
   {
     id: "vulnerability-lab",
@@ -51,7 +51,7 @@ const projects: Project[] = [
       "Exploitation Frameworks",
       "Containerized Environment"
     ],
-    githubUrl: "https://github.com/Prathameshpendkar2005/vulnerability-lab"
+    githubUrl: "https://github.com/Prathameshpendkar2005/Projects.git"
   }
 ];
 
@@ -154,6 +154,57 @@ const certifications: Certification[] = [
   }
 ];
 
+const galleryItems: GalleryItem[] = [
+  {
+    id: "projects-screenshot",
+    title: "Cybersecurity Projects Portfolio",
+    description: "Screenshot showcasing secure web hosting, recon automation, TSCM design, and vulnerability testing lab projects",
+    imagePath: "@assets/image_1756967533758.png",
+    category: "project",
+    date: "2025"
+  },
+  {
+    id: "team-photo",
+    title: "Professional Team Collaboration",
+    description: "Working with cybersecurity professionals and colleagues during internship experience",
+    imagePath: "@assets/WhatsApp Image 2024-08-07 at 21.11.15_3b95bb5b_1756967707430.jpg",
+    category: "team",
+    date: "August 2024"
+  },
+  {
+    id: "arapl-certificate",
+    title: "ARAPL Vulnerability Management Certificate",
+    description: "Certificate from ARAPL for completion of vulnerability management and penetration testing internship program",
+    imagePath: "@assets/ARAPL_1756967719523.jpg",
+    category: "certificate",
+    date: "September 2023"
+  },
+  {
+    id: "techblue-certificate",
+    title: "TechBlue Technology Workshop Certificate",
+    description: "Certificate of participation for 2-day TechBlue Technology Workshop on volume forecasting and database security",
+    imagePath: "@assets/image_1756967840745.png",
+    category: "certificate",
+    date: "2023"
+  },
+  {
+    id: "digital-forensics-certificate",
+    title: "Digital Forensics Essentials (DFE) - EC-Council",
+    description: "EC-Council certified Digital Forensics Essentials course completion certificate - enhancing incident response capabilities",
+    imagePath: "@assets/Digital_forensics_essentials_1756967862712.png",
+    category: "certificate",
+    date: "June 2024"
+  },
+  {
+    id: "bloggerscon-certificate",
+    title: "BloggersCon Security Analyst Internship",
+    description: "Certificate of completion for Security Analyst Internship at BloggersCon Vision Pvt Ltd, focusing on bug bounty and VAPT",
+    imagePath: "@assets/Prathamesh_Pendkar_1756967941797.png",
+    category: "certificate",
+    date: "August 2025"
+  }
+];
+
 const experiences: Experience[] = [
   {
     id: "imperative",
@@ -229,6 +280,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/experience", (req, res) => {
     res.json(experiences);
+  });
+
+  app.get("/api/gallery", (req, res) => {
+    res.json(galleryItems);
   });
 
   const httpServer = createServer(app);

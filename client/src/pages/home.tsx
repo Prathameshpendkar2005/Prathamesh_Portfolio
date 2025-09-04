@@ -8,6 +8,7 @@ import { SkillsSection } from "@/components/sections/skills";
 import { CertificationsSection } from "@/components/sections/certifications";
 import { ExperienceSection } from "@/components/sections/experience";
 import { ContactSection } from "@/components/sections/contact";
+import { GallerySection } from "@/components/sections/gallery";
 
 export default function Home() {
   const { gsap, ScrollTrigger, loaded } = useGSAP();
@@ -110,6 +111,7 @@ export default function Home() {
         <SkillsSection />
         <CertificationsSection />
         <ExperienceSection />
+        <GallerySection />
         <ContactSection />
       </main>
     </div>

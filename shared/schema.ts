@@ -59,8 +59,18 @@ export const ExperienceSchema = z.object({
   achievements: z.array(z.string())
 });
 
+export const GalleryItemSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  imagePath: z.string(),
+  category: z.enum(["project", "certificate", "team", "achievement"]),
+  date: z.string().optional()
+});
+
 export type Project = z.infer<typeof ProjectSchema>;
 export type SkillTool = z.infer<typeof SkillToolSchema>;
 export type SkillCategory = z.infer<typeof SkillCategorySchema>;
 export type Certification = z.infer<typeof CertificationSchema>;
 export type Experience = z.infer<typeof ExperienceSchema>;
+export type GalleryItem = z.infer<typeof GalleryItemSchema>;
